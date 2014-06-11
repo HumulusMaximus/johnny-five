@@ -14,6 +14,7 @@ board = new five.Board();
 
 board.on("ready", function() {
 
+  // Create two example servos on pins 9 and 10
   five.Servo({
     pin: 9,
     // Limit this servo to 170°
@@ -67,6 +68,12 @@ board.on("ready", function() {
   //
   // eg. array.to( deg );
 
+  // step( deg )
+  //
+  // step all servos by deg
+  //
+  // eg. array.step( -20 );
+
   // stop()
   //
   // stop all servos
@@ -89,21 +96,18 @@ board.on("ready", function() {
 ```
 
 
+## Breadboard/Illustration
+
+
+![docs/breadboard/servo-array.png](breadboard/servo-array.png)
+[docs/breadboard/servo-array.fzz](breadboard/servo-array.fzz)
 
 
 
 
-
-
-
-
-
-
-
-## Contributing
-All contributions must adhere to the [Idiomatic.js Style Guide](https://github.com/rwldrn/idiomatic.js),
-by maintaining the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt](https://github.com/cowboy/grunt).
 
 ## License
-Copyright (c) 2012 Rick Waldron <waldron.rick@gmail.com>
+Copyright (c) 2012-2013 Rick Waldron <waldron.rick@gmail.com>
+Licensed under the MIT license.
+Copyright (c) 2014 The Johnny-Five Contributors
 Licensed under the MIT license.
