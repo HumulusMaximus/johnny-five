@@ -1,6 +1,10 @@
 [
 
 
+  [ "Animation"],
+    "animation.js",
+    "phoenix.js",
+
   [ "Board" ],
     "board.js",
     "board-with-port.js",
@@ -33,6 +37,7 @@
     "servo-prompt.js",
     "servo-keypress.js",
     "servo-drive.js",
+    "servo-animation.js",
     "servo-diagnostic.js",
     "servo-array.js",
     "boe-test-servos.js",

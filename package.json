@@ -1,7 +1,7 @@
 {
   "name": "johnny-five",
   "description": "The JavaScript Arduino Programming Framework.",
-  "version": "0.8.7",
+  "version": "0.8.8",
   "homepage": "https://github.com/rwldrn/johnny-five",
   "author": {
     "name": "Rick Waldron <waldron.rick@gmail.com>",
@@ -97,7 +97,8 @@
     "es6-shim": "latest",
     "temporal": "latest",
     "descriptor": "latest",
-    "nanotimer": "0.3.1"
+    "nanotimer": "0.3.1",
+    "ease-component": "latest"
   },
   "optionalDependencies": {
     "firmata": ">=0.2.9",
