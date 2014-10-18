@@ -43,6 +43,213 @@ exports["Led.Matrix => LedControl"] = {
   }
 };
 
+exports["LedControl - I2C Matrix"] = {
+  setUp: function(done) {
+    this.board = newBoard();
+    this.clock = sinon.useFakeTimers();
+
+    this.sendI2CWriteRequest = sinon.spy(this.board.io, "sendI2CWriteRequest");
+
+    this.lc = new LedControl({
+      controller: "HT16K33",
+      isMatrix: true,
+      board: this.board
+    });
+
+    this.each = sinon.spy(this.lc, "each");
+    this.row = sinon.spy(this.lc, "row");
+    done();
+  },
+  tearDown: function(done) {
+    this.clock.restore();
+    done();
+  },
+  initialize: function(test) {
+    var expected = [
+      // oscillator on
+      [0x70, [0x21]],
+      // blink off
+      [0x70, [0x81]],
+      // brightness at max
+      [0x70, [0xEF]],
+      // clear
+      [0x70, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+    ];
+    test.deepEqual(this.sendI2CWriteRequest.args, expected);
+    test.done();
+  },
+  clearAll: function(test) {
+      test.expect(2);
+
+      var expected = [
+        // oscillator on
+        [0x70, [0x21]],
+        // blink off
+        [0x70, [0x81]],
+        // brightness at max
+        [0x70, [0xEF]],
+        // clear
+        [0x70, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+        // clear
+        [0x70, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+      ];
+
+      this.lc.clear();
+      test.deepEqual(this.sendI2CWriteRequest.args, expected);
+      test.equal(this.each.callCount, 1);
+
+      test.done();
+  },
+  on: function(test) {
+    test.expect(1);
+    var expected = [
+      // oscillator on
+      [ 0x70, [ 0x21 ]],
+      // blink off
+      [ 0x70, [ 0x81 ]],
+      // brightness at max
+      [ 0x70, [ 0xEF ]],
+      // clear
+      [ 0x70,[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]],
+      // oscillator on
+      [ 0x70, [ 0x21 ]]
+    ];
+    this.lc.on(0);
+    test.deepEqual(this.sendI2CWriteRequest.args, expected);
+
+    test.done();
+  },
+  off: function(test) {
+    test.expect(1);
+    var expected = [
+      // oscillator on
+      [ 0x70, [ 0x21 ]],
+      // blink off
+      [ 0x70, [ 0x81 ]],
+      // brightness at max
+      [ 0x70, [ 0xEF ]],
+      // clear
+      [ 0x70,[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]],
+      // oscillator off
+      [ 0x70, [ 0x20 ]]
+    ];
+    this.lc.off(0);
+    test.deepEqual(this.sendI2CWriteRequest.args, expected);
+
+    test.done();
+  },
+  brightness: function(test) {
+    test.expect(1);
+    var expected = [
+      // oscillator on
+      [ 0x70, [ 0x21 ]],
+      // blink off
+      [ 0x70, [ 0x81 ]],
+      // brightness at max
+      [ 0x70, [ 0xEF ]],
+      // clear
+      [ 0x70,[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]],
+      // min brightness
+      [ 0x70, [ 0xE0 ]],
+      // max brightness
+      [ 0x70, [ 0xEF ]]
+    ];
+    this.lc.brightness(0); // set min brightness
+    this.lc.brightness(100); // set max brightness
+    test.deepEqual(this.sendI2CWriteRequest.args, expected);
+
+    test.done();
+  },
+  row: function(test) {
+    test.expect(1);
+
+    var expected = [
+       // oscillator on
+      [ 0x70, [ 0x21 ] ],
+      // blink off
+      [ 0x70, [ 0x81 ] ],
+      // brightness at max
+      [ 0x70, [ 0xEF ] ],
+      // clear
+      [ 0x70,[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]],
+      // setting the values
+      [ 0x70, [ 0, 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]],
+      [ 0x70, [ 0, 32, 0, 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]],
+      [ 0x70, [ 0, 32, 0, 32, 0, 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]],
+      [ 0x70, [ 0, 32, 0, 32, 0, 32, 0, 32, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]],
+      [ 0x70, [ 0, 32, 0, 32, 0, 32, 0, 32, 0, 32, 0, 0, 0, 0, 0, 0, 0 ]],
+      [ 0x70, [ 0, 32, 0, 32, 0, 32, 0, 32, 0, 32, 0, 32, 0, 0, 0, 0, 0 ]],
+      [ 0x70, [ 0, 32, 0, 32, 0, 32, 0, 32, 0, 32, 0, 32, 0, 32, 0, 0, 0 ]],
+      [ 0x70, [ 0, 32, 0, 32, 0, 32, 0, 32, 0, 32, 0, 32, 0, 32, 0, 32, 0 ]] 
+    ];
+
+    this.lc.row(0, 1, 255);
+
+    test.deepEqual(this.sendI2CWriteRequest.args, expected);
+
+    test.done();
+  },
+  column: function(test) {
+    test.expect(1);
+
+    var expected = [
+      // oscillator on
+      [ 0x70, [ 0x21 ] ],
+      // blink off
+      [ 0x70, [ 0x81 ] ],
+      // brightness at max
+      [ 0x70, [ 0xEF ] ],
+      // clear
+      [ 0x70, [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]],
+      // setting the values
+      [ 0x70, [ 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]], 
+      [ 0x70, [ 0, 0, 0, 0, 0, 0, 0, 96, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]], 
+      [ 0x70, [ 0, 0, 0, 0, 0, 0, 0, 112, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]], 
+      [ 0x70, [ 0, 0, 0, 0, 0, 0, 0, 120, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]], 
+      [ 0x70, [ 0, 0, 0, 0, 0, 0, 0, 124, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]], 
+      [ 0x70, [ 0, 0, 0, 0, 0, 0, 0, 126, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]], 
+      [ 0x70, [ 0, 0, 0, 0, 0, 0, 0, 127, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]], 
+      [ 0x70, [ 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]] 
+    ];
+
+    this.lc.column(0, 3, 255);
+
+    test.deepEqual(this.sendI2CWriteRequest.args, expected);
+
+    test.done();
+  },
+  drawStringArray: function(test) {
+    test.expect(2);
+
+    var expected = [
+     [ 0, 0, '00111100' ],
+     [ 0, 1, '01000010' ],
+     [ 0, 2, '10100101' ],
+     [ 0, 3, '10000001' ],
+     [ 0, 4, '10100101' ],
+     [ 0, 5, '10011001' ],
+     [ 0, 6, '01000010' ],
+     [ 0, 7, '00111100' ]
+    ];
+
+    this.lc.draw(0, [
+    "00111100",
+    "01000010",
+    "10100101",
+    "10000001",
+    "10100101",
+    "10011001",
+    "01000010",
+    "00111100"
+    ]);
+
+    test.deepEqual(this.row.args, expected);
+    test.equal(this.row.callCount, 8);
+
+    test.done();
+  }
+};
+
 exports["LedControl - Matrix"] = {
   setUp: function(done) {
     this.board = newBoard();
@@ -62,16 +269,27 @@ exports["LedControl - Matrix"] = {
     this.shiftOut = sinon.spy(this.board, "shiftOut");
 
     this.proto = [{
+        name: "column",
+        args: [0, 255]
+      }, {
+        name: "digit",
+        args: [1, 1, true]
+      }, {
+        name: "draw",
+        args: [1]
+      }, {
+        name: "send",
+        args: [0, 1, 1]
+      }
+    ];
+
+    this.instance = [{
       name: "on",
       args: []
     }, {
       name: "off",
       args: []
-    },
-    // {
-    //   name: "shutdown"
-    // },
-    {
+    }, {
       name: "scanLimit",
       args: [0]
     }, {
@@ -87,20 +305,6 @@ exports["LedControl - Matrix"] = {
       name: "row",
       args: [0, 255]
     }, {
-      name: "column",
-      args: [0, 255]
-    }, {
-      name: "digit",
-      args: [1, 1, true]
-    }, {
-      name: "draw",
-      args: [1]
-    }, {
-      name: "send",
-      args: [0, 1, 1]
-    }];
-
-    this.instance = [{
       name: "devices"
     }, {
       name: "isMatrix"
@@ -117,6 +321,8 @@ exports["LedControl - Matrix"] = {
     this.brightness = sinon.spy(this.lc, "brightness");
     this.clear = sinon.spy(this.lc, "clear");
     this.led = sinon.spy(this.lc, "led");
+    this.initialize = sinon.spy(this.lc,"initialize");
+    this.send = sinon.spy(this.lc, "send");
 
     done();
   },
@@ -141,9 +347,8 @@ exports["LedControl - Matrix"] = {
   },
 
   initialization: function(test) {
-    test.expect(1);
+    test.expect(2);
 
-    var send = sinon.spy(LedControl.prototype, "send");
     var expected = [
       // this.send(device, LedControl.OP.DECODING, 0);
       // this.send(device, LedControl.OP.BRIGHTNESS, 3);
@@ -151,27 +356,27 @@ exports["LedControl - Matrix"] = {
       // this.send(device, LedControl.OP.SHUTDOWN, 1);
       // this.send(device, LedControl.OP.DISPLAYTEST, 0);
 
-      [ 0, 9, 0 ],
-      [ 0, 10, 3 ],
-      [ 0, 11, 7 ],
-      [ 0, 12, 1 ],
-      [ 0, 15, 0 ],
+      [0, 9, 0],
+      [0, 10, 3],
+      [0, 11, 7],
+      [0, 12, 1],
+      [0, 15, 0],
 
       // this.clear(device);
-      [ 0, 1, 0 ],
-      [ 0, 2, 0 ],
-      [ 0, 3, 0 ],
-      [ 0, 4, 0 ],
-      [ 0, 5, 0 ],
-      [ 0, 6, 0 ],
-      [ 0, 7, 0 ],
-      [ 0, 8, 0 ],
+      [0, 1, 0],
+      [0, 2, 0],
+      [0, 3, 0],
+      [0, 4, 0],
+      [0, 5, 0],
+      [0, 6, 0],
+      [0, 7, 0],
+      [0, 8, 0],
 
       // this.on(device);
-      [ 0, 12, 1 ]
+      [0, 12, 1]
     ];
 
-    var lc = new LedControl({
+    this.lc.initialize({
       pins: {
         data: 2,
         clock: 3,
@@ -181,9 +386,9 @@ exports["LedControl - Matrix"] = {
       board: this.board
     });
 
-    test.deepEqual(send.args, expected);
+    test.ok(this.initialize.called);
+    test.deepEqual(this.send.args, expected);
 
-    send.restore();
     test.done();
   },
 
@@ -201,7 +406,10 @@ exports["LedControl - Matrix"] = {
     test.expect(1);
 
     this.lc.on(0);
-    test.deepEqual(this.shiftOut.args, [ [ 2, 3, 12 ], [ 2, 3, 1 ] ]);
+    test.deepEqual(this.shiftOut.args, [
+      [2, 3, 12],
+      [2, 3, 1]
+    ]);
 
     test.done();
   },
@@ -211,7 +419,10 @@ exports["LedControl - Matrix"] = {
 
 
     this.lc.on();
-    test.deepEqual(this.shiftOut.args, [ [ 2, 3, 12 ], [ 2, 3, 1 ] ]);
+    test.deepEqual(this.shiftOut.args, [
+      [2, 3, 12],
+      [2, 3, 1]
+    ]);
     test.equal(this.each.callCount, 1);
 
     test.done();
@@ -221,7 +432,10 @@ exports["LedControl - Matrix"] = {
     test.expect(1);
 
     this.lc.off(0);
-    test.deepEqual(this.shiftOut.args, [ [ 2, 3, 12 ], [ 2, 3, 0 ] ]);
+    test.deepEqual(this.shiftOut.args, [
+      [2, 3, 12],
+      [2, 3, 0]
+    ]);
 
     test.done();
   },
@@ -230,43 +444,23 @@ exports["LedControl - Matrix"] = {
     test.expect(2);
 
     this.lc.off();
-    test.deepEqual(this.shiftOut.args, [ [ 2, 3, 12 ], [ 2, 3, 0 ] ]);
+    test.deepEqual(this.shiftOut.args, [
+      [2, 3, 12],
+      [2, 3, 0]
+    ]);
     test.equal(this.each.callCount, 1);
 
     test.done();
   },
 
-  // shutdown: function(test) {
-  //   test.expect(2);
-
-  //   this.lc.shutdown(0, 1);
-  //   test.deepEqual(this.shiftOut.args, [ [ 2, 3, 12 ], [ 2, 3, 0 ] ]);
-
-  //   this.lc.shutdown(0, 0);
-  //   test.deepEqual(this.shiftOut.args, [ [ 2, 3, 12 ], [ 2, 3, 0 ], [ 2, 3, 12 ], [ 2, 3, 1 ] ]);
-
-  //   test.done();
-  // },
-
-  // shutdownAll: function(test) {
-  //   test.expect(3);
-
-  //   this.lc.shutdown(1);
-  //   test.deepEqual(this.shiftOut.args, [ [ 2, 3, 12 ], [ 2, 3, 0 ] ]);
-
-  //   this.lc.shutdown(0);
-  //   test.deepEqual(this.shiftOut.args, [ [ 2, 3, 12 ], [ 2, 3, 0 ], [ 2, 3, 12 ], [ 2, 3, 1 ] ]);
-
-  //   test.equal(this.each.callCount, 2);
-
-  //   test.done();
-  // },
-
   scanLimit: function(test) {
     test.expect(1);
 
     this.lc.scanLimit(0, 8);
-    test.deepEqual(this.shiftOut.args, [ [ 2, 3, 11 ], [ 2, 3, 8 ] ]);
+    test.deepEqual(this.shiftOut.args, [
+      [2, 3, 11],
+      [2, 3, 8]
+    ]);
 
     test.done();
   },
@@ -275,7 +469,10 @@ exports["LedControl - Matrix"] = {
     test.expect(2);
 
     this.lc.scanLimit(8);
-    test.deepEqual(this.shiftOut.args, [ [ 2, 3, 11 ], [ 2, 3, 8 ] ]);
+    test.deepEqual(this.shiftOut.args, [
+      [2, 3, 11],
+      [2, 3, 8]
+    ]);
     test.equal(this.each.callCount, 1);
 
     test.done();
@@ -285,7 +482,10 @@ exports["LedControl - Matrix"] = {
     test.expect(1);
 
     this.lc.brightness(0, 100);
-    test.deepEqual(this.shiftOut.args, [ [ 2, 3, 10 ], [ 2, 3, 15 ] ]);
+    test.deepEqual(this.shiftOut.args, [
+      [2, 3, 10],
+      [2, 3, 15]
+    ]);
 
 
     test.done();
@@ -295,7 +495,10 @@ exports["LedControl - Matrix"] = {
     test.expect(2);
 
     this.lc.brightness(100);
-    test.deepEqual(this.shiftOut.args, [ [ 2, 3, 10 ], [ 2, 3, 15 ] ]);
+    test.deepEqual(this.shiftOut.args, [
+      [2, 3, 10],
+      [2, 3, 15]
+    ]);
     test.equal(this.each.callCount, 1);
 
     test.done();
@@ -305,22 +508,22 @@ exports["LedControl - Matrix"] = {
     test.expect(1);
 
     var expected = [
-      [ 2, 3, 1 ],
-      [ 2, 3, 0 ],
-      [ 2, 3, 2 ],
-      [ 2, 3, 0 ],
-      [ 2, 3, 3 ],
-      [ 2, 3, 0 ],
-      [ 2, 3, 4 ],
-      [ 2, 3, 0 ],
-      [ 2, 3, 5 ],
-      [ 2, 3, 0 ],
-      [ 2, 3, 6 ],
-      [ 2, 3, 0 ],
-      [ 2, 3, 7 ],
-      [ 2, 3, 0 ],
-      [ 2, 3, 8 ],
-      [ 2, 3, 0 ]
+      [2, 3, 1],
+      [2, 3, 0],
+      [2, 3, 2],
+      [2, 3, 0],
+      [2, 3, 3],
+      [2, 3, 0],
+      [2, 3, 4],
+      [2, 3, 0],
+      [2, 3, 5],
+      [2, 3, 0],
+      [2, 3, 6],
+      [2, 3, 0],
+      [2, 3, 7],
+      [2, 3, 0],
+      [2, 3, 8],
+      [2, 3, 0]
     ];
 
     this.lc.clear(0);
@@ -333,22 +536,22 @@ exports["LedControl - Matrix"] = {
     test.expect(2);
 
     var expected = [
-      [ 2, 3, 1 ],
-      [ 2, 3, 0 ],
-      [ 2, 3, 2 ],
-      [ 2, 3, 0 ],
-      [ 2, 3, 3 ],
-      [ 2, 3, 0 ],
-      [ 2, 3, 4 ],
-      [ 2, 3, 0 ],
-      [ 2, 3, 5 ],
-      [ 2, 3, 0 ],
-      [ 2, 3, 6 ],
-      [ 2, 3, 0 ],
-      [ 2, 3, 7 ],
-      [ 2, 3, 0 ],
-      [ 2, 3, 8 ],
-      [ 2, 3, 0 ]
+      [2, 3, 1],
+      [2, 3, 0],
+      [2, 3, 2],
+      [2, 3, 0],
+      [2, 3, 3],
+      [2, 3, 0],
+      [2, 3, 4],
+      [2, 3, 0],
+      [2, 3, 5],
+      [2, 3, 0],
+      [2, 3, 6],
+      [2, 3, 0],
+      [2, 3, 7],
+      [2, 3, 0],
+      [2, 3, 8],
+      [2, 3, 0]
     ];
 
     this.lc.clear();
@@ -362,8 +565,8 @@ exports["LedControl - Matrix"] = {
     test.expect(1);
 
     var expected = [
-      [ 2, 3, 2 ],
-      [ 2, 3, 255 ]
+      [2, 3, 2],
+      [2, 3, 255]
     ];
 
     this.lc.row(0, 1, 255);
@@ -377,8 +580,8 @@ exports["LedControl - Matrix"] = {
     test.expect(2);
 
     var expected = [
-      [ 2, 3, 2 ],
-      [ 2, 3, 255 ]
+      [2, 3, 2],
+      [2, 3, 255]
     ];
 
     this.lc.row(1, 255);
@@ -393,14 +596,22 @@ exports["LedControl - Matrix"] = {
     test.expect(1);
 
     var expected = [
-      [ 2, 3, 1 ], [ 2, 3, 16 ],
-      [ 2, 3, 2 ], [ 2, 3, 16 ],
-      [ 2, 3, 3 ], [ 2, 3, 16 ],
-      [ 2, 3, 4 ], [ 2, 3, 16 ],
-      [ 2, 3, 5 ], [ 2, 3, 16 ],
-      [ 2, 3, 6 ], [ 2, 3, 16 ],
-      [ 2, 3, 7 ], [ 2, 3, 16 ],
-      [ 2, 3, 8 ], [ 2, 3, 16 ]
+      [2, 3, 1],
+      [2, 3, 16],
+      [2, 3, 2],
+      [2, 3, 16],
+      [2, 3, 3],
+      [2, 3, 16],
+      [2, 3, 4],
+      [2, 3, 16],
+      [2, 3, 5],
+      [2, 3, 16],
+      [2, 3, 6],
+      [2, 3, 16],
+      [2, 3, 7],
+      [2, 3, 16],
+      [2, 3, 8],
+      [2, 3, 16]
     ];
 
     this.lc.column(0, 3, 255);
@@ -414,14 +625,22 @@ exports["LedControl - Matrix"] = {
     test.expect(2);
 
     var expected = [
-      [ 2, 3, 1 ], [ 2, 3, 16 ],
-      [ 2, 3, 2 ], [ 2, 3, 16 ],
-      [ 2, 3, 3 ], [ 2, 3, 16 ],
-      [ 2, 3, 4 ], [ 2, 3, 16 ],
-      [ 2, 3, 5 ], [ 2, 3, 16 ],
-      [ 2, 3, 6 ], [ 2, 3, 16 ],
-      [ 2, 3, 7 ], [ 2, 3, 16 ],
-      [ 2, 3, 8 ], [ 2, 3, 16 ]
+      [2, 3, 1],
+      [2, 3, 16],
+      [2, 3, 2],
+      [2, 3, 16],
+      [2, 3, 3],
+      [2, 3, 16],
+      [2, 3, 4],
+      [2, 3, 16],
+      [2, 3, 5],
+      [2, 3, 16],
+      [2, 3, 6],
+      [2, 3, 16],
+      [2, 3, 7],
+      [2, 3, 16],
+      [2, 3, 8],
+      [2, 3, 16]
     ];
 
     this.lc.column(3, 255);
@@ -436,14 +655,14 @@ exports["LedControl - Matrix"] = {
     test.expect(2);
 
     var expected = [
-      [ 0, 0, 0 ],
-      [ 0, 1, 0 ],
-      [ 0, 2, 0 ],
-      [ 0, 3, 0 ],
-      [ 0, 4, 0 ],
-      [ 0, 5, 0 ],
-      [ 0, 6, 0 ],
-      [ 0, 7, 0 ]
+      [0, 0, 0],
+      [0, 1, 0],
+      [0, 2, 0],
+      [0, 3, 0],
+      [0, 4, 0],
+      [0, 5, 0],
+      [0, 6, 0],
+      [0, 7, 0]
     ];
 
     this.lc.draw(0, " ");
@@ -458,14 +677,14 @@ exports["LedControl - Matrix"] = {
     test.expect(2);
 
     var expected = [
-      [ 0, 0, 0 ],
-      [ 0, 1, 0 ],
-      [ 0, 2, 0 ],
-      [ 0, 3, 0 ],
-      [ 0, 4, 0 ],
-      [ 0, 5, 0 ],
-      [ 0, 6, 0 ],
-      [ 0, 7, 0 ]
+      [0, 0, 0],
+      [0, 1, 0],
+      [0, 2, 0],
+      [0, 3, 0],
+      [0, 4, 0],
+      [0, 5, 0],
+      [0, 6, 0],
+      [0, 7, 0]
     ];
 
     this.lc.draw(0, [0, 0, 0, 0, 0, 0, 0, 0]);
@@ -480,14 +699,14 @@ exports["LedControl - Matrix"] = {
     test.expect(2);
 
     var expected = [
-      [ 0, 0, 0 ],
-      [ 0, 1, 0 ],
-      [ 0, 2, 0 ],
-      [ 0, 3, 0 ],
-      [ 0, 4, 0 ],
-      [ 0, 5, 0 ],
-      [ 0, 6, 0 ],
-      [ 0, 7, 0 ]
+      [0, 0, 0],
+      [0, 1, 0],
+      [0, 2, 0],
+      [0, 3, 0],
+      [0, 4, 0],
+      [0, 5, 0],
+      [0, 6, 0],
+      [0, 7, 0]
     ];
 
     this.lc.draw(0, [
@@ -512,8 +731,8 @@ exports["LedControl - Matrix"] = {
     test.expect(2);
 
     var expected = [
-      [ 2, 3, 10 ],
-      [ 2, 3, 0 ]
+      [2, 3, 10],
+      [2, 3, 0]
     ];
 
     this.digitalWrite.reset();
@@ -595,23 +814,23 @@ exports["LedControl - Digits"] = {
       // this.send(device, LedControl.OP.SHUTDOWN, 1);
       // this.send(device, LedControl.OP.DISPLAYTEST, 0);
 
-      [ 0, 10, 3 ],
-      [ 0, 11, 7 ],
-      [ 0, 12, 1 ],
-      [ 0, 15, 0 ],
+      [0, 10, 3],
+      [0, 11, 7],
+      [0, 12, 1],
+      [0, 15, 0],
 
       // this.clear(device);
-      [ 0, 1, 0 ],
-      [ 0, 2, 0 ],
-      [ 0, 3, 0 ],
-      [ 0, 4, 0 ],
-      [ 0, 5, 0 ],
-      [ 0, 6, 0 ],
-      [ 0, 7, 0 ],
-      [ 0, 8, 0 ],
+      [0, 1, 0],
+      [0, 2, 0],
+      [0, 3, 0],
+      [0, 4, 0],
+      [0, 5, 0],
+      [0, 6, 0],
+      [0, 7, 0],
+      [0, 8, 0],
 
       // this.on(device);
-      [ 0, 12, 1 ]
+      [0, 12, 1]
     ];
 
     var lc = new LedControl({
@@ -636,7 +855,9 @@ exports["LedControl - Digits"] = {
     test.expect(1);
 
     this.lc.digit(0, 0, 1);
-    test.deepEqual(this.send.args, [[ 0, 8, 48 ]]);
+    test.deepEqual(this.send.args, [
+      [0, 8, 48]
+    ]);
 
     test.done();
   },
@@ -644,7 +865,9 @@ exports["LedControl - Digits"] = {
     test.expect(1);
 
     this.lc.digit(0, 0, "1.");
-    test.deepEqual(this.send.args, [[ 0, 8, 176 ]]);
+    test.deepEqual(this.send.args, [
+      [0, 8, 176]
+    ]);
 
     test.done();
   },
@@ -652,7 +875,9 @@ exports["LedControl - Digits"] = {
     test.expect(1);
 
     this.lc.draw(0, 0, 1);
-    test.deepEqual(this.send.args, [[ 0, 8, 48 ]]);
+    test.deepEqual(this.send.args, [
+      [0, 8, 48]
+    ]);
 
     test.done();
   },
@@ -660,7 +885,9 @@ exports["LedControl - Digits"] = {
     test.expect(1);
 
     this.lc.draw(0, 0, "1.");
-    test.deepEqual(this.send.args, [[ 0, 8, 176 ]]);
+    test.deepEqual(this.send.args, [
+      [0, 8, 176]
+    ]);
 
     test.done();
   },
@@ -668,7 +895,9 @@ exports["LedControl - Digits"] = {
     test.expect(1);
 
     this.lc.digit(0, 1);
-    test.deepEqual(this.send.args, [[ 0, 8, 48 ]]);
+    test.deepEqual(this.send.args, [
+      [0, 8, 48]
+    ]);
 
     test.done();
   },
@@ -676,7 +905,9 @@ exports["LedControl - Digits"] = {
     test.expect(1);
 
     this.lc.digit(0, "1.");
-    test.deepEqual(this.send.args, [[ 0, 8, 176 ]]);
+    test.deepEqual(this.send.args, [
+      [0, 8, 176]
+    ]);
 
     test.done();
   },
@@ -684,7 +915,9 @@ exports["LedControl - Digits"] = {
     test.expect(1);
 
     this.lc.draw(0, 1);
-    test.deepEqual(this.send.args, [[ 0, 8, 48 ]]);
+    test.deepEqual(this.send.args, [
+      [0, 8, 48]
+    ]);
 
     test.done();
   },
@@ -692,7 +925,9 @@ exports["LedControl - Digits"] = {
     test.expect(1);
 
     this.lc.draw(0, "1.");
-    test.deepEqual(this.send.args, [[ 0, 8, 176 ]]);
+    test.deepEqual(this.send.args, [
+      [0, 8, 176]
+    ]);
 
     test.done();
   }
