@@ -2,6 +2,7 @@ var SerialPort = require("./mock-serial").SerialPort,
   MockFirmata = require("./mock-firmata"),
   five = require("../lib/johnny-five.js"),
   Repl = require("../lib/repl"),
+  sinon = require("sinon"),
   __ = require("../lib/fn.js"),
   _ = require("lodash"),
   Board = five.Board,
@@ -41,75 +42,25 @@ exports["Initialization"] = {
   }
 };
 
+exports["samplingInterval"] = {
+
+  samplingInterval : function(test) {
+    test.expect(1);
+
+    board.io.setSamplingInterval = sinon.spy();
+    board.samplingInterval(100);
+    test.ok(board.io.setSamplingInterval.calledOnce);
+
+    test.done();
+  }
+};
+
+
 exports["static"] = {
   "Board.cache": function(test) {
     test.expect(2);
     test.equal(typeof five.Board.cache, "object", "Board.cache");
     test.ok(Array.isArray(five.Board.cache), "Board.cache");
-    test.done();
-  },
-
-  "Board.constrain()": function(test) {
-    test.expect(5);
-
-    test.equal(five.Board.constrain(100, 0, 255), 100);
-    test.equal(five.Board.constrain(-1, 0, 255), 0);
-    test.equal(five.Board.constrain(0, 0, 255), 0);
-    test.equal(five.Board.constrain(256, 0, 255), 255);
-    test.equal(five.Board.constrain(255, 0, 255), 255);
-
-    test.done();
-  },
-
-  "Board.map()": function(test) {
-    test.expect(3);
-
-    test.equal(five.Board.map(1009, 300, 1009, 0, 255), 255);
-    test.equal(five.Board.map(300, 300, 1009, 0, 255), 0);
-    test.equal(five.Board.map(500, 0, 1000, 0, 255), 127);
-
-    test.done();
-  },
-
-  "Board.fmap()": function(test) {
-    test.expect(1);
-
-    test.equal(five.Board.fmap(500, 0, 1000, 0, 255), 127.5);
-
-    test.done();
-  },
-  "Board.range()": function(test) {
-    test.expect(7);
-
-    // Positive Range
-    test.deepEqual(five.Board.range(3), [0, 1, 2, 3]);
-    test.deepEqual(five.Board.range(0, 3), [0, 1, 2, 3]);
-    test.deepEqual(five.Board.range(0, 10, 2), [0, 2, 4, 6, 8, 10]);
-    test.deepEqual(five.Board.range(0, 9, 3), [0, 3, 6, 9]);
-
-    // Negative Range
-    test.deepEqual(five.Board.range(0, -9, -1), [0, -1, -2, -3, -4, -5, -6, -7, -8, -9]);
-    test.deepEqual(five.Board.range(0, -9, -3), [0, -3, -6, -9]);
-    test.deepEqual(five.Board.range(0, -10, -2), [0, -2, -4, -6, -8, -10]);
-
-    test.done();
-  },
-
-  "Board.range.prefixed()": function(test) {
-    test.expect(4);
-
-    // Positive Range
-    test.deepEqual(five.Board.range.prefixed("A", 3), ["A0", "A1", "A2", "A3"]);
-    test.deepEqual(five.Board.range.prefixed("A", 0, 3), ["A0", "A1", "A2", "A3"]);
-    test.deepEqual(five.Board.range.prefixed("A", 0, 10, 2), ["A0", "A2", "A4", "A6", "A8", "A10"]);
-    test.deepEqual(five.Board.range.prefixed("A", 0, 9, 3), ["A0", "A3", "A6", "A9"]);
-
-    test.done();
-  },
-
-  "Board.uid()": function(test) {
-    test.expect(1);
-    test.equal(typeof five.Board.uid, "function", "Board.uid");
     test.done();
   },
 

@@ -36,6 +36,7 @@ module.exports = function(grunt) {
         "test/bootstrap.js",
         "test/board.js",
         "test/board-connection.js",
+        "test/compass.js",
         "test/options.js",
         "test/board.pins.js",
         "test/capabilities.js",
@@ -43,8 +44,9 @@ module.exports = function(grunt) {
         "test/accelerometer.js",
         "test/animation.js",
         "test/button.js",
-        "test/esc.js",
         "test/distance.js",
+        "test/esc.js",
+        "test/fn.js",
         "test/gyro.js",
         "test/lcd.js",
         "test/led.js",
@@ -57,10 +59,10 @@ module.exports = function(grunt) {
         "test/relay.js",
         "test/sensor.js",
         "test/servo.js",
+        "test/shiftregister.js",
         "test/sonar.js",
         "test/stepper.js",
-        "test/switch.js",
-        "test/shiftregister.js"
+        "test/switch.js"
       ]
     },
     jshint: {
@@ -101,6 +103,7 @@ module.exports = function(grunt) {
     jscs: {
       files: {
         src: [
+          "Gruntfile.js",
           "lib/**/!(johnny-five)*.js",
           "test/**/*.js",
           "eg/**/*.js",
@@ -117,6 +120,7 @@ module.exports = function(grunt) {
           "try",
           "catch",
         ],
+        disallowNewlineBeforeBlockStatements: true,
         requireSpaceBeforeBlockStatements: true,
         requireParenthesesAroundIIFE: true,
         requireSpacesInConditionalExpression: true,
@@ -172,6 +176,16 @@ module.exports = function(grunt) {
         },
       }
     }
+  });
+
+  // Support running a single test suite:
+  // grunt nodeunit:just:motor for example
+  grunt.registerTask("nodeunit:just", function(file) {
+    if (file) {
+      grunt.config("nodeunit.tests", "test/" + file + ".js");
+    }
+
+    grunt.task.run("nodeunit");
   });
 
   grunt.loadNpmTasks("grunt-contrib-watch");
@@ -324,8 +338,6 @@ module.exports = function(grunt) {
 
     grunt.file.write("package.json", pkg.join("\n"));
 
-
-
     // TODO:
     //
     //  - git commit with "vX.X.X" for commit message
@@ -333,5 +345,4 @@ module.exports = function(grunt) {
     //
     //
   });
-
 };

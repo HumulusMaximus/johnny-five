@@ -4,10 +4,10 @@
 
 _Artwork by [Mike Sgier](http://msgierillustration.com)_
 
-[![Build Status](https://travis-ci.org/rwaldron/johnny-five.png?branch=master)](https://travis-ci.org/rwaldron/johnny-five)
+[![Build Status](https://travis-ci.org/rwaldron/johnny-five.png?branch=master)](https://travis-ci.org/rwaldron/johnny-five) [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/rwaldron/johnny-five?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 
-#### Johnny-Five is an Open Source, JavaScript Arduino programming framework, developed at [Bocoup](http://bocoup.com).
+#### Johnny-Five is an Open Source, IoT and Robotics programming framework, developed at [Bocoup](http://bocoup.com). Johnny-Five programs can be written for Arduino, Beagle Bone, Intel Galileo & Edison, Pinoccio, Raspberry Pi, Spark Core, TI Launchpad and more!
 
 Johnny-Five does not attempt to provide "all the things", but instead focuses on delivering robust, reality tested, highly composable APIs that behave consistently across all supported hardware platforms. Johnny-Five wants to be a baseline control kit for hardware projects, allowing you the freedom to build, grow and experiment with diverse JavaScript libraries of your own choice. Johnny-Five couples comfortably with: 
 
@@ -36,7 +36,8 @@ IO Plugins allow Johnny-Five code to communicate with any non-Arduino based hard
   - [Bean-IO](https://github.com/monteslu/bean-io/)
 - IO Board (Generic IO Plugin class to make your own!)
   - [IOBoard](https://github.com/achingbrain/node-ioboard)
-
+- [TI Launchpad](http://www.ti.com/ww/en/launchpad/launchpad.html?DCMP=mcu-launchpad&HQS=launchpad) (with Energia's Firmata)
+  - [Energia Firmata](https://github.com/energia/Energia/tree/master/libraries/Firmata)
 
 #### Why JavaScript? [NodeBots: The Rise of JavaScript Robotics](http://www.voodootikigod.com/nodebots-the-rise-of-js-robotics)
 
@@ -158,6 +159,7 @@ board.on("ready", function() {
 - [Servo Diagnostic](https://github.com/rwldrn/johnny-five/blob/master/docs/servo-diagnostic.md)
 - [Servo Array](https://github.com/rwldrn/johnny-five/blob/master/docs/servo-array.md)
 - [Boe Test Servos](https://github.com/rwldrn/johnny-five/blob/master/docs/boe-test-servos.md)
+- [Servo PCA9685](https://github.com/rwldrn/johnny-five/blob/master/docs/servo-PCA9685.md)
 
 ### Motor
 - [Motor](https://github.com/rwldrn/johnny-five/blob/master/docs/motor.md)

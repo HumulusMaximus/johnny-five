@@ -14,6 +14,8 @@ exports["Servo"] = {
   setUp: function(done) {
     this.clock = sinon.useFakeTimers();
     this.servoWrite = sinon.spy(board.io, "servoWrite");
+    this.servoConfig = sinon.spy(board.io, "servoConfig");
+    this.pinMode = sinon.spy(board.io, "pinMode");
     this.servo = new Servo({
       pin: 11,
       board: board
@@ -73,6 +75,8 @@ exports["Servo"] = {
   tearDown: function(done) {
     this.clock.restore();
     this.servoWrite.restore();
+    this.servoConfig.restore();
+    this.pinMode.restore();
     done();
   },
 
@@ -233,6 +237,48 @@ exports["Servo"] = {
   }
 };
 
+
+exports["Servo mode and config"] = {
+  setUp: function(done) {
+    this.servoConfig = sinon.spy(board.io, "servoConfig");
+    this.pinMode = sinon.spy(board.io, "pinMode");
+    done();
+  },
+
+  tearDown: function(done) {
+    this.servoConfig.restore();
+    this.pinMode.restore();
+    done();
+  },
+
+  noRange: function(test) {
+    test.expect(2);
+
+    this.servo = new Servo({
+      pin: 11,
+      board: board
+    });
+
+    test.equal(this.servoConfig.callCount, 0);
+    test.equal(this.pinMode.callCount, 1);
+    test.done();
+  },
+
+  pwmRange: function(test) {
+    test.expect(2);
+
+    this.servo = new Servo({
+      pin: 11,
+      board: board,
+      pwmRange: [1000, 2000]
+    });
+
+    test.equal(this.servoConfig.callCount, 1);
+    test.equal(this.pinMode.callCount, 0);
+    test.done();
+  }
+};
+
 exports["Servo - Continuous"] = {
   setUp: function(done) {
     this.clock = sinon.useFakeTimers();
@@ -297,6 +343,45 @@ exports["Servo - Continuous"] = {
 
     test.done();
   },
+
+  deadband: function(test) {
+    test.expect(2);
+
+    this.continuousServo = new Servo.Continuous({
+      pin: 5,
+      board: board,
+      deadband: [85,95]
+    });
+
+    this.continuousServo.cw(0.5);
+    test.equal(this.continuousServo.value, 138);
+
+    this.continuousServo.ccw(0.5);
+    test.equal(this.continuousServo.value, 42);
+
+    test.done();
+  },
+
+  rangePlusDeadband: function(test) {
+    test.expect(2);
+
+    this.continuousServo = new Servo.Continuous({
+      pin: 5,
+      board: board,
+      deadband: [85,95],
+      range: [20, 160]
+    });
+
+    this.continuousServo.cw();
+    test.ok(this.servoWrite.calledWith(5, 160));
+
+    this.servoWrite.reset();
+
+    this.continuousServo.cw(0.5);
+    test.ok(this.servoWrite.calledWith(5, 128));
+
+    test.done();
+  }
 };
 
 exports["Servo - Allowed Pin Names"] = {
@@ -344,4 +429,43 @@ exports["Servo - Allowed Pin Names"] = {
 
     test.done();
   }
+};
+
+exports["Servo - PCA9685"] = {
+  setUp: function(done) {
+    this.writeSpy = sinon.spy(board.io, "sendI2CWriteRequest");
+    this.readSpy = sinon.spy(board.io, "sendI2CReadRequest");
+    this.servo = new Servo({
+      pin: 0,
+      board: board,
+      controller: "PCA9685",
+      address: 0x40
+    });
+
+    done();
+  },
+
+  tearDown: function(done) {
+    this.writeSpy.restore();
+    this.readSpy.restore();
+    done();
+  },
+
+  to: function(test) {
+    test.expect(6);
+    this.writeSpy.reset();
+
+    this.servo.to(20);
+
+    test.equal(this.writeSpy.args[0][0], 0x40);
+    test.equal(this.writeSpy.args[0][1][0], 6);
+    test.equal(this.writeSpy.args[0][1][1], 0);
+    test.equal(this.writeSpy.args[0][1][2], 0);
+    test.equal(this.writeSpy.args[0][1][3], 187);
+    test.equal(this.writeSpy.args[0][1][4], 0);
+
+    test.done();
+
+  }
+
 };
