@@ -1,38 +1,34 @@
-# Lcd Runner
+# Lcd I2c Runner
 
 Run with:
 ```bash
-node eg/lcd-runner.js
+node eg/lcd-i2c-runner.js
 ```
 
 
 ```javascript
-var five = require("johnny-five");
+var colors = require("../eg/color-list");
+var five = require("../");
 var board = new five.Board();
 
 board.on("ready", function() {
-
+  var clist = Object.keys(colors);
+  var clength = clist.length;
   var lcd = new five.LCD({
-    // LCD pin name  RS  EN  DB4 DB5 DB6 DB7
-    // Arduino pin # 7    8   9   10  11  12
-    pins: [8, 9, 4, 5, 6, 7],
-    backlight: 10,
-    rows: 2,
-    cols: 16
+    controller: "JHD1313M1"
   });
 
-  var frame = 1,
-    col = 0,
-    row = 0;
+  var frame = 1;
+  var col = 0;
+  var row = 0;
 
-  lcd.display();
   lcd.useChar("runninga");
   lcd.useChar("runningb");
 
   board.loop(300, function() {
 
     lcd.clear().cursor(row, col).print(
-      ":running" + (++frame % 2 === 0 ? "a" : "b") + ":"
+      ":running" + ((frame ^= 1) === 0 ? "a" : "b") + ":"
     );
 
     if (++col === lcd.cols) {
@@ -43,11 +39,11 @@ board.on("ready", function() {
       }
     }
   });
+
+  board.loop(1000, function() {
+    lcd.bgColor(clist[Math.floor(Math.random() * clength)]);
+  });
 });
-
-
-// @device [16 x 2 LCD White on Blue](http://www.hacktronics.com/LCDs/16-x-2-LCD-White-on-Blue/flypage.tpl.html)
-// @device [20 x 4 LCD White on Blue](http://www.hacktronics.com/LCDs/20-x-4-LCD-White-on-Blue/flypage.tpl.html)
 
 ```
 

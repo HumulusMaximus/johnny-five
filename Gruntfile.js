@@ -58,12 +58,14 @@ module.exports = function(grunt) {
         "test/pir.js",
         "test/reflectancearray.js",
         "test/relay.js",
+        "test/repl.js",
         "test/sensor.js",
         "test/servo.js",
         "test/shiftregister.js",
         "test/sonar.js",
         "test/stepper.js",
-        "test/switch.js"
+        "test/switch.js",
+        "test/wii.js"
       ]
     },
     jshint: {
@@ -248,7 +250,7 @@ module.exports = function(grunt) {
         inMarkdown = false;
 
         // Modify code in example to appear as it would if installed via npm
-        eg = eg.replace("../lib/johnny-five.js", "johnny-five")
+        eg = eg.replace(/\.\.\/lib\/|\.js/g, "")
               .split("\n").filter(function( line ) {
 
           if ( /@markdown/.test(line) ) {

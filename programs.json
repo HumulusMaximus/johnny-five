@@ -27,6 +27,7 @@
     "navigator.js",
     "radar.js",
     "whisker.js",
+    "line-follower.js",
 
 
   [ "Servo" ],
@@ -92,6 +93,7 @@
     "ir-proximity.js",
     "proximity.js",
     "ir-reflect.js",
+    "ir-reflect-array.js",
 
 
   [ "Joystick" ],
@@ -106,6 +108,9 @@
     "lcd-enumeratechars.js",
     "lcd-runner-20x4.js",
     "lcd-runner.js",
+    "lcd-runner.js",
+    "lcd-i2c.js",
+    "lcd-i2c-runner.js",
 
 
   [ "LED" ],
@@ -166,6 +171,15 @@
     "slider-servo-control.js",
     "sensor-temperature-tmp36.js",
     "sensor-temperature-lm35.js",
+
+  [ "Grove IoT Kit (Seeed Studio)" ],
+    "grove-led.js",
+    "grove-button.js",
+    "grove-touch.js",
+    "grove-sensor.js",
+    "grove-lcd-rgb.js",
+    "grove-lcd-rgb-temperature-display.js",
+    "grove-servo.js",
 
   [ "TinkerKit" ],
     "tinkerkit-accelerometer.js",

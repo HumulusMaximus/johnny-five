@@ -1,7 +1,7 @@
 {
   "name": "johnny-five",
   "description": "The JavaScript Arduino Programming Framework.",
-  "version": "0.8.27",
+  "version": "0.8.32",
   "homepage": "https://github.com/rwldrn/johnny-five",
   "author": {
     "name": "Rick Waldron <waldron.rick@gmail.com>",
@@ -73,7 +73,8 @@
     { "name": "Jonathan Petitcolas", "email": "<petitcolas.jonathan@gmail.com>" },
     { "name": "Chinmay Pendharkar", "email": "<notthetup@gmail.com>" },
     { "name": "Brian Genisio", "email": "<BrianGenisio@Gmail.com>" },
-    { "name": "Anna Gerber", "email": "<anna.m.gerber@gmail.com>" }
+    { "name": "Anna Gerber", "email": "<anna.m.gerber@gmail.com>" },
+    { "name": "Derek Wheelden" , "email": "<derek.wheelden@gmail.com>" }
   ],
   "keywords": [
     "arduino", "raspberrypi", "usb", "serial", "serialport", "firmata", "robot", "spark", "spark core", "spark-io", "raspberrypi", "raspberry pi", "rpi", "raspi-io", "intel galileo", "galileo", "galileo-io"
@@ -96,13 +97,14 @@
     "node": ">=0.8.0"
   },
   "dependencies": {
+    "color-convert": "~0.5.2",
     "colors": ">=0.5.1",
-    "lodash": "latest",
-    "es6-shim": "latest",
-    "temporal": "latest",
     "descriptor": "latest",
+    "ease-component": "latest",
+    "es6-shim": "latest",
+    "lodash": "latest",
     "nanotimer": "0.3.1",
-    "ease-component": "latest"
+    "temporal": "latest"
   },
   "optionalDependencies": {
     "firmata": ">=0.2.9",
@@ -116,6 +118,7 @@
     "keypress": "latest",
     "sinon": "~1.10.2",
     "grunt": "~0.4.5",
+    "grunt-cli": "~0.1.13",
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-nodeunit": "~0.4.1",
     "grunt-contrib-watch": "~0.6.1",
@@ -126,6 +129,6 @@
     "test": "grunt"
   },
   "browser": {
-    "galileo-io" : false
+    "galileo-io": false
   }
 }

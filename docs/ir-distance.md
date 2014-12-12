@@ -9,7 +9,7 @@ node eg/ir-distance.js
 ```javascript
 // Run this program with a device model:
 //
-//    node eg/ir-distance.js GP2Y0A02YK0F
+//    node eg/ir-distance GP2Y0A02YK0F
 //
 //    You may also use the model number printed on the
 //    device itself. eg
@@ -17,6 +17,7 @@ node eg/ir-distance.js
 //    2Y0A21
 //    2D120X
 //    2Y0A02
+//    OA41SK
 //
 //    Without a specific model number, the readings will
 //    be wrong (unless you've connected a GP2Y0A02YK0F/2Y0A02)
@@ -29,6 +30,8 @@ node eg/ir-distance.js
 //     https://www.sparkfun.com/products/8959
 // - GP2Y0A02YK0F
 //     https://www.sparkfun.com/products/8958
+// - GP2Y0A41SK0F
+//     https://www.sparkfun.com/products/12728
 //
 //
 var five = require("johnny-five"),
