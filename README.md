@@ -1,3 +1,50 @@
+<!-- 
+
+    Hello!
+
+    Please don't edit this file!
+
+    If you'd like to make changes to the readme contents, please make them in the tpl/.readme.md file. If you'd like to add an example, please put the fil in eg/ and then add an entry to programs.json. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-->
 <img src="https://github.com/rwldrn/johnny-five/raw/master/assets/sgier-johnny-five.png">
 
 # Node-isassemble Johnny-Five
@@ -35,11 +82,11 @@ Documentation for the Johnny-Five API can be found [here](https://github.com/rwa
 
 ## Guidance
 
-Need help? Ask a quesion on the [NodeBots Community Forum](http://forums.nodebots.io). If you just have a quick question or are interested in ongoing design discussions, join us in the [Johnny-Five Gitter Chat](https://gitter.im/rwaldron/johnny-five).
+Need help? Ask a question on the [NodeBots Community Forum](http://forums.nodebots.io). If you just have a quick question or are interested in ongoing design discussions, join us in the [Johnny-Five Gitter Chat](https://gitter.im/rwaldron/johnny-five).
 
 For step-by-step examples, including an electronics primer, check out [Arduino Experimenter's Guide for NodeJS](http://node-ardx.org/) by [@AnnaGerber](https://twitter.com/AnnaGerber)
 
-Here is a list of [prerequites](https://github.com/rwaldron/johnny-five/wiki/Prerequites) for Linux, OSX or Windows.
+Here is a list of [prerequisites](https://github.com/rwaldron/johnny-five/wiki/Prerequites) for Linux, OSX or Windows.
 
 Check out the [bluetooth guide](https://github.com/rwaldron/johnny-five/wiki/JY-MCU-Bluetooth-Serial-Port-Module-Notes) if you want to remotely control your robot.
 
@@ -127,6 +174,9 @@ board.on("ready", function() {
 - [Pin Circuit Event](https://github.com/rwldrn/johnny-five/blob/master/docs/pin-circuit-event.md)
 - [Pin Dtoa](https://github.com/rwldrn/johnny-five/blob/master/docs/pin-dtoa.md)
 - [Whisker](https://github.com/rwldrn/johnny-five/blob/master/docs/whisker.md)
+
+### Plugin Template
+- [Plugin](https://github.com/rwldrn/johnny-five/blob/master/docs/plugin.md)
 
 ### JSConf
 - [Nodebot](https://github.com/rwldrn/johnny-five/blob/master/docs/nodebot.md)
