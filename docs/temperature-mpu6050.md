@@ -24,6 +24,7 @@ board.on("ready", function() {
   });
 });
 
+
 ```
 
 
@@ -33,12 +34,12 @@ board.on("ready", function() {
 ![docs/breadboard/temperature-mpu6050.png](breadboard/temperature-mpu6050.png)
 [docs/breadboard/temperature-mpu6050.fzz](breadboard/temperature-mpu6050.fzz)
 
-
+- [MPU-6050 - IMU with Temperature Sensor](http://www.invensense.com/mems/gyro/mpu6050.html)
 
 
 
 ## License
-Copyright (c) 2012-2013 Rick Waldron <waldron.rick@gmail.com>
+Copyright (c) 2012, 2013, 2014 Rick Waldron <waldron.rick@gmail.com>
 Licensed under the MIT license.
-Copyright (c) 2014 The Johnny-Five Contributors
+Copyright (c) 2014, 2015 The Johnny-Five Contributors
 Licensed under the MIT license.
