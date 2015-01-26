@@ -1,14 +1,15 @@
+<!--remove-start-->
 # Servo Prompt
 
 Run with:
 ```bash
 node eg/servo-prompt.js
 ```
-
+<!--remove-end-->
 
 ```javascript
-var five = require("johnny-five"),
-  readline = require("readline");
+var five = require("johnny-five");
+var readline = require("readline");
 
 var rl = readline.createInterface({
   input: process.stdin,
@@ -16,20 +17,17 @@ var rl = readline.createInterface({
 });
 
 five.Board().on("ready", function() {
-
-  var servo = new five.Servo(process.argv[2] || 10);
+  var servo = new five.Servo(10);
 
   rl.setPrompt("SERVO TEST (0-180)> ");
   rl.prompt();
 
   rl.on("line", function(line) {
-    var pos = line.trim();
-    servo.to(pos);
+    servo.to(+line.trim());
     rl.prompt();
   }).on("close", function() {
     process.exit(0);
   });
-
 });
 
 ```
@@ -44,9 +42,10 @@ five.Board().on("ready", function() {
 
 
 
-
+<!--remove-start-->
 ## License
 Copyright (c) 2012, 2013, 2014 Rick Waldron <waldron.rick@gmail.com>
 Licensed under the MIT license.
 Copyright (c) 2014, 2015 The Johnny-Five Contributors
 Licensed under the MIT license.
+<!--remove-end-->

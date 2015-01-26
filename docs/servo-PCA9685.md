@@ -1,15 +1,17 @@
+<!--remove-start-->
 # Servo PCA9685
 
 Run with:
 ```bash
 node eg/servo-PCA9685.js
 ```
-
+<!--remove-end-->
 
 ```javascript
 var five = require("johnny-five");
+var board = new five.Board();
 
-five.Board().on("ready", function() {
+board.on("ready", function() {
   console.log("Connected");
 
   // Initialize the servo
@@ -88,15 +90,19 @@ five.Board().on("ready", function() {
 ```
 
 
+## Breadboard/Illustration
+
+
+![docs/breadboard/servo-PCA9685.png](breadboard/servo-PCA9685.png)
+[docs/breadboard/servo-PCA9685.fzz](breadboard/servo-PCA9685.fzz)
 
 
 
 
-
-
-
+<!--remove-start-->
 ## License
 Copyright (c) 2012, 2013, 2014 Rick Waldron <waldron.rick@gmail.com>
 Licensed under the MIT license.
 Copyright (c) 2014, 2015 The Johnny-Five Contributors
 Licensed under the MIT license.
+<!--remove-end-->

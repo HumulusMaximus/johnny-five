@@ -1,10 +1,11 @@
+<!--remove-start-->
 # Grove Servo
 
 Run with:
 ```bash
 node eg/grove-servo.js
 ```
-
+<!--remove-end-->
 
 ```javascript
 var five = require("johnny-five");
@@ -43,13 +44,14 @@ For this program, you'll need:
 
 ![Grove - Servo Module](http://www.seeedstudio.com/depot/images/product/GroveServo_01.jpg)
 
-![Grove - Rotary Angle Module](http://www.seeedstudio.com/depot/images/product/rotary.jpg)
+![Grove - Rotary Angle Sensor](http://www.seeedstudio.com/depot/images/product/GroveRotaryP.jpg)
 
 
 
-
+<!--remove-start-->
 ## License
 Copyright (c) 2012, 2013, 2014 Rick Waldron <waldron.rick@gmail.com>
 Licensed under the MIT license.
 Copyright (c) 2014, 2015 The Johnny-Five Contributors
 Licensed under the MIT license.
+<!--remove-end-->

@@ -1,10 +1,11 @@
+<!--remove-start-->
 # Led Matrix
 
 Run with:
 ```bash
 node eg/led-matrix.js
 ```
-
+<!--remove-end-->
 
 ```javascript
 var five = require("johnny-five");
@@ -23,34 +24,36 @@ board.on("ready", function() {
     "00000000"
   ];
 
-  var lc = new five.LedControl({
+  var matrix = new five.Led.Matrix({
     pins: {
       data: 2,
       clock: 3,
       cs: 4
-    },
-    isMatrix: true
+    }
   });
 
-  lc.on();
+  matrix.on();
 
   var msg = "johnny-five".split("");
 
+  // Display each letter for 1 second
   function next() {
     var c;
 
     if (c = msg.shift()) {
-      lc.draw(c);
-      setTimeout(next, 500);
+      matrix.draw(c);
+      setTimeout(next, 1000);
     }
   }
 
   next();
 
   this.repl.inject({
-    lc: lc,
+    matrix: matrix,
+    // Type "heart()" in the REPL to
+    // display a heart!
     heart: function() {
-      lc.draw(heart);
+      matrix.draw(heart);
     }
   });
 });
@@ -67,9 +70,10 @@ board.on("ready", function() {
 
 
 
-
+<!--remove-start-->
 ## License
 Copyright (c) 2012, 2013, 2014 Rick Waldron <waldron.rick@gmail.com>
 Licensed under the MIT license.
 Copyright (c) 2014, 2015 The Johnny-Five Contributors
 Licensed under the MIT license.
+<!--remove-end-->

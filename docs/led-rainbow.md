@@ -1,20 +1,20 @@
+<!--remove-start-->
 # Led Rainbow
 
 Run with:
 ```bash
 node eg/led-rainbow.js
 ```
-
+<!--remove-end-->
 
 ```javascript
 var five = require("johnny-five");
+var board = new five.Board();
 
-five.Board().on("ready", function() {
-  var rgb, rainbow, index;
-
-  rgb = new five.Led.RGB([3, 5, 6]);
-  rainbow = ["FF000", "FF7F00", "00FF00", "FFFF00", "0000FF", "4B0082", "8F00FF"];
-  index = 0;
+board.on("ready", function() {
+  var rgb = new five.Led.RGB([3, 5, 6]);
+  var rainbow = ["FF000", "FF7F00", "00FF00", "FFFF00", "0000FF", "4B0082", "8F00FF"];
+  var index = 0;
 
   setInterval(function() {
     if (index + 1 === rainbow.length) {
@@ -36,9 +36,10 @@ five.Board().on("ready", function() {
 
 
 
-
+<!--remove-start-->
 ## License
 Copyright (c) 2012, 2013, 2014 Rick Waldron <waldron.rick@gmail.com>
 Licensed under the MIT license.
 Copyright (c) 2014, 2015 The Johnny-Five Contributors
 Licensed under the MIT license.
+<!--remove-end-->

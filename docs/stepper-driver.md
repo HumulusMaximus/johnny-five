@@ -1,14 +1,14 @@
+<!--remove-start-->
 # Stepper Driver
 
 Run with:
 ```bash
 node eg/stepper-driver.js
 ```
-
+<!--remove-end-->
 
 ```javascript
 var five = require("johnny-five");
-
 var board = new five.Board();
 
 board.on("ready", function() {
@@ -27,7 +27,10 @@ board.on("ready", function() {
   var stepper = new five.Stepper({
     type: five.Stepper.TYPE.DRIVER,
     stepsPerRev: 200,
-    pins: [11, 12]
+    pins: {
+      step: 11,
+      dir: 13
+    }
   });
 
   // Make 10 full revolutions counter-clockwise at 180 rpm with acceleration and deceleration
@@ -64,9 +67,10 @@ board.on("ready", function() {
 
 
 
-
+<!--remove-start-->
 ## License
 Copyright (c) 2012, 2013, 2014 Rick Waldron <waldron.rick@gmail.com>
 Licensed under the MIT license.
 Copyright (c) 2014, 2015 The Johnny-Five Contributors
 Licensed under the MIT license.
+<!--remove-end-->

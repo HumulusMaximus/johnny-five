@@ -1,24 +1,23 @@
+<!--remove-start-->
 # Led Strobe
 
 Run with:
 ```bash
 node eg/led-strobe.js
 ```
-
+<!--remove-end-->
 
 ```javascript
-var five = require("johnny-five"),
-  board, led;
-
-board = new five.Board();
+var five = require("johnny-five");
+var board = new five.Board();
 
 board.on("ready", function() {
 
-  // Create a standard `led` hardware instance
-  led = new five.Led(13);
+  // Create a standard `led` component instance
+  var led = new five.Led(13);
 
-  // "strobe" the led in 100ms on-off phases
-  led.strobe(100);
+  // "blink" the led in 100ms on-off phases
+  led.blink(100);
 });
 
 ```
@@ -33,9 +32,10 @@ board.on("ready", function() {
 
 
 
-
+<!--remove-start-->
 ## License
 Copyright (c) 2012, 2013, 2014 Rick Waldron <waldron.rick@gmail.com>
 Licensed under the MIT license.
 Copyright (c) 2014, 2015 The Johnny-Five Contributors
 Licensed under the MIT license.
+<!--remove-end-->
