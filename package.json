@@ -1,7 +1,7 @@
 {
   "name": "johnny-five",
   "description": "The JavaScript Hardware Programming Framework. Use with: Arduino (all models), Electric Imp, Beagle Bone, Intel Galileo & Edison, Linino One, Pinoccio, Raspberry Pi, Spark Core, TI Launchpad and more!",
-  "version": "0.8.38",
+  "version": "0.8.39",
   "homepage": "https://github.com/rwldrn/johnny-five",
   "author": {
     "name": "Rick Waldron <waldron.rick@gmail.com>",
@@ -78,7 +78,8 @@
     { "name": "Sean Hussey", "email": "<sean@seanhussey.com>" },
     { "name": "ralphtheninja", "email": "<ralphtheninja@riseup.net>" },
     { "name": "SotirisValogiannis", "email": "<omiloparmenos@gmail.com>" },
-    { "name": "Sue Lockwood", "email": "<deathbearbrown@gmail.com>" }
+    { "name": "Sue Lockwood", "email": "<deathbearbrown@gmail.com>" },
+    { "name": "Henri Cavalcante", "email": "<contato@henrimichel.com.br>" }
   ],
   "keywords": [
     "arduino", "raspberrypi", "usb", "serial", "serialport", "firmata", "robot", "spark", "spark core", "spark-io", "raspberrypi", "raspberry pi", "rpi", "raspi-io", "intel galileo", "galileo", "galileo-io"
