@@ -1,5 +1,5 @@
 <!--remove-start-->
-# Tinkerkit Continuous Servo
+# TinkerKit - Continuous Servo
 
 Run with:
 ```bash

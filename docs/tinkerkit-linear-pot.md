@@ -1,5 +1,5 @@
 <!--remove-start-->
-# Tinkerkit Linear Pot
+# TinkerKit - Linear Potentiometer
 
 Run with:
 ```bash

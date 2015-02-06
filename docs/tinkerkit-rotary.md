@@ -1,5 +1,5 @@
 <!--remove-start-->
-# Tinkerkit Rotary
+# TinkerKit - Rotary Potentiometer
 
 Run with:
 ```bash

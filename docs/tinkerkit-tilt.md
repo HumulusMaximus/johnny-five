@@ -1,5 +1,5 @@
 <!--remove-start-->
-# Tinkerkit Tilt
+# TinkerKit - Tilt Sensor
 
 Run with:
 ```bash

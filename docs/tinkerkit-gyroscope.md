@@ -1,5 +1,5 @@
 <!--remove-start-->
-# Tinkerkit Gyroscope
+# TinkerKit - Gyro
 
 Run with:
 ```bash

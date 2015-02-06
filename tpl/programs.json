@@ -19,7 +19,6 @@
       "led-pulse.js",
       "led-fade.js",
       "led-fade-callback.js",
-      "led-status.js",
       "led-array.js",
       "led-rgb.js",
       "led-rgb-anode.js",
@@ -82,7 +81,8 @@
     "topic": "ESC & Brushless Motor",
     "classes": ["ESC"],
     "files": [
-      "esc-keypress.js"
+      "esc-keypress.js",
+      "esc-dualshock.js"
     ]
   },
   {
@@ -92,7 +92,7 @@
       "ping.js",
       "sonar-scan.js",
       "sonar.js",
-      "sonar-i2c.js"
+      "sonar-srf10.js"
     ]
   },
   {
@@ -122,12 +122,10 @@
   },
   {
     "topic": "Infrared (Proximity, Motion, Reflectance)",
-    "classes": ["IR.Distance", "IR.Motion", "IR.Reflect", "IR.Reflect.Array"],
+    "classes": ["IR.Motion", "IR.Reflect", "IR.Reflect.Array"],
     "files": [
-      "ir-distance.js",
       "ir-motion.js",
       "ir-proximity.js",
-      "proximity.js",
       "ir-reflect.js",
       "ir-reflect-array.js"
     ]
@@ -147,6 +145,7 @@
     "classes": ["LCD"],
     "files": [
       "lcd.js",
+      "lcd-i2c-PCF8574.js",
       "lcd-enumeratechars.js",
       "lcd-runner-20x4.js",
       "lcd-runner.js",
@@ -156,9 +155,11 @@
     ]
   },
   {
-    "topic": "Magnetometer (Compass)",
+    "topic": "Compass/Magnetometer",
     "classes": ["Magnetometer", "Compass"],
     "files": [
+      "compass-hmc6352.js",
+      "compass-hmc5883l.js",
       "magnetometer-log.js",
       "magnetometer-north.js",
       "magnetometer.js"
@@ -189,14 +190,13 @@
       "accelerometer-mpu6050.js",
       "accelerometer-pan-tilt.js",
       "gyro.js",
+      "gyro-lpr5150l.js",
       "gyro-mpu6050.js",
       "photoresistor.js",
       "photoresistor-servo.js",
       "potentiometer.js",
       "sensor.js",
       "sensor-fsr-servo.js",
-      "sensor-fsr.js",
-      "sensor-ir-led-receiver.js",
       "sensor-slider.js",
       "slider-log.js",
       "slider-pan.js",
