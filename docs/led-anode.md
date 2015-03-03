@@ -1,32 +1,23 @@
 <!--remove-start-->
-# LED - RGB, anode
+# LED (Common Anode)
 
 Run with:
 ```bash
-node eg/led-rgb-anode.js
+node eg/led-anode.js
 ```
 <!--remove-end-->
 
 ```javascript
-var five = require("johnny-five");
-var board = new five.Board();
+var five = require("johnny-five"),
+  board = new five.Board();
 
 board.on("ready", function() {
-  var anode = new five.Led.RGB({
-    pins: {
-      red: 3,
-      green: 5,
-      blue: 6
-    },
+  var led = new five.Led({
+    pin: 3,
     isAnode: true
   });
 
-  anode.blink();
-
-  this.repl.inject({
-    anode: anode
-  });
-
+  led.blink();
 });
 
 ```
@@ -35,8 +26,8 @@ board.on("ready", function() {
 ## Breadboard/Illustration
 
 
-![docs/breadboard/led-rgb-anode.png](breadboard/led-rgb-anode.png)
-[docs/breadboard/led-rgb-anode.fzz](breadboard/led-rgb-anode.fzz)
+![docs/breadboard/led-anode.png](breadboard/led-anode.png)
+[docs/breadboard/led-anode.fzz](breadboard/led-anode.fzz)
 
 
 
